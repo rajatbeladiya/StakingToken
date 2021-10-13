@@ -1,2 +1,4 @@
 build
 contracts/artifacts
+
+node_modules
