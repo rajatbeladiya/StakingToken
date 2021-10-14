@@ -26,13 +26,13 @@ contract StakingToken is ERC20, Ownable {
         return (false, 0);
     }
 
-    function addStakeHolder(address _address) public {
+    function addStakeHolder(address _address) private {
         (bool isStakeHolder, ) = _isStakeHolder(_address);
         require(!isStakeHolder, "Already Stake Holder");
         stakeHolders.push(_address);
     }
 
-    function removeStakeHolder(address _address) public {
+    function removeStakeHolder(address _address) private {
         (bool isStakeHolder, uint256 stakeHolderIndex) = _isStakeHolder(_address);
         require(isStakeHolder, "Not a Stake Holder");
         delete stakeHolders[stakeHolderIndex];
@@ -53,11 +53,11 @@ contract StakingToken is ERC20, Ownable {
     function createStake(uint256 _stake) public {
         _burn(msg.sender, _stake);
         if (stakes[msg.sender] == 0) addStakeHolder(msg.sender);
-        stakes[msg.sender].add(_stake);
+        stakes[msg.sender] = stakes[msg.sender].add(_stake);
     }
 
     function removeStake(uint256 _stake) public {
-        stakes[msg.sender].sub(_stake);
+        stakes[msg.sender] = stakes[msg.sender].sub(_stake);
         if (stakes[msg.sender] == 0) removeStakeHolder(msg.sender);
         _mint(msg.sender, _stake);
     }

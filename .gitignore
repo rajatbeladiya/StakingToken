@@ -1,4 +1,5 @@
 build
 contracts/artifacts
+/bin
 
 node_modules
